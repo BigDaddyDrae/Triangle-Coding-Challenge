@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Triangle Classification</title>
+<style>
+.grid {
+	margin: 1em;
+	border-collapse: collapse;
+	width: 50px table-layout: fixed;
+}
+
+.grid td, th {
+	cursor: pointer;
+	height: 30px;
+	border: 1px solid #ccc;
+	text-align: center;
+	font-family: sans-serif;
+	font-size: 13px
+}
+</style>
+
+</head>
+<img src="images/tri_2.png" alt="tri_2" style="width:100%;height:100px;"/>
+<body bgcolor="#F5F5F5">
+<h1> <b>Please Enter Triangle Measurement(s).</b></h1>
+</body>
+
+
+<section>
+	<div class="container" id="grid_container"></div>
+</section>
+
+<footer>
+	<script src="js/jquery/jquery.min.js"></script>
+	<script src="js/dataEntryScreenLogic.js"></script>
+	<script>
+		setDefaultGrid()
+	</script>
+	<section>
+		<div class="container" id="button_container">
+			<button class="btn btn-default" onclick="addRow()" id="addRow">Add
+				Row</button>
+			<button class="btn btn-default" onclick="processDataRunProgram()"
+				id="submit">Submit</button>
+
+			<button class="btn btn-default" onclick="setDefaultGrid()"
+				id="clear">Clear</button>
+		</div>
+		<br/>
+		<br/>
+		<p>*Disclaimer: All Measurements Are Assumed To Already Be in Inches.</p>
+		<img src="images/tri_3.gif" alt="tri_3" style="width:150px;height:100px;"/>
+	</section>
+	
+	<script>setColorSchemes()</script>
+	
+</footer>
+</html>
