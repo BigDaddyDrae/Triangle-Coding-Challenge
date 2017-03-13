@@ -1,0 +1,23 @@
+#Written 3/12/17 9:06pm by @Drae Nelson
+
+Thank you for considering me for this position and the opportunity
+to show case my talents and passions. Buckle up and enjoy.
+
+1. This code was written using the spring boot suite(sts bundle)
+2. It is a Maven Project and can imported into any workspace once downloaded.
+	a.) Click file --> import -->Maven -->existing maven project -->"point to
+		wherever you have the repository downloaded.
+	b.) Your IDE should then pick up the pom.xml --> click done
+	c.)Now you can run the project as an application or a 
+		Spring Boot App if you have the sts bundle installed and using as the IDE.
+		*right click on project --> run as --> java application
+		*right click on project --> run as --> spring boot app
+	d.) Once the server starts and program load. Open any internet browser
+		and navigate to the web address"localhost:8080".
+	e.) You should now see the application page. Consult dev challenge requirment
+		sheet for guidance on using the application.
+		
+		
+If you have any question or issues with the above steps, please contact me
+Mr. Andrae "Drae" Nelson
+mutumbo34@yahoo.com
