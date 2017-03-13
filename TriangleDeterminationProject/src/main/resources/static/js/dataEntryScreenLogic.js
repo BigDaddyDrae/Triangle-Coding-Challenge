@@ -40,6 +40,8 @@ function createGrid(rows, columns)
 	    	}//end if
 	    	
 	        var tr = grid.appendChild(document.createElement('tr'));
+	        tr.setAttribute("contenteditable", false);
+	        
 	        var type ="";
 	        for (var c=0; c < columns; c++)
 	        {          
@@ -47,11 +49,21 @@ function createGrid(rows, columns)
 	            {                    	
 	            	var x = document.createElement("td");
 	            	//x.setAttribute("type", "text");
-	            	x.setAttribute("contenteditable", true);
+	            	//x.setAttribute("contenteditable", true);
+	            	var sub_x;	            	
 	            	if(c != 3)
 	            	{
+	            		//Changed this due to IE not supporting setting td cells uneditable(A.N.)
+	            		sub_x = x.appendChild(document.createElement("INPUT"));
+	            		sub_x.setAttribute("id", "sub_x" + r + "," + (c +1));
+	            		//sub_x.setAttribute("disabled", false);
+	            		//sub_x.setAttribute("contenteditable", true);
+	            		//sub_x.setAttribute("readonly", false);
+	            		
 	            		//Doesn't work on td, can be removed(A.N.)
-	            		x.setAttribute("onchange", "validateNumeric(this)");
+	            		//Removed again because object has changed, and causes real-time validation.
+	            		//Which is cool but taxing to track, when validation is already done on submit(A.N.)
+	            		//sub_x.setAttribute("onchange", "validateNumeric(this)");
 	            		
 	            		////alert("There: " + old_data_parsed);
 	            		////alert(old_data_parsed.length != 0)
@@ -71,13 +83,19 @@ function createGrid(rows, columns)
 	        	    		//console.log("old_data_parsed[val_index_sub]: " + 
 	        	    		//		old_data_parsed[val_index_sub]);
 	        	    		//alert("Check Log");
-	        	    		x.innerHTML = old_data_parsed[val_index_sub];
+	        	    		sub_x.value = old_data_parsed[val_index_sub];
 	        	    		val_index_sub++
 	        	    	}//end if
 	            	}//end if
 	            	else
-	            		//x.setAttribute("readonly", true);
+	            	{
+	            		x.setAttribute("disabled", true);
 	            		x.setAttribute("contenteditable", false);
+	            		x.setAttribute("readonly", true);
+	            		
+	            	}//end else
+	            	//Must remain "data" because its part of the table cell id which holds the input
+	            	//field/cell that hold the actual data(A.N.)
 	            	x.setAttribute("id", "data" + r + "," + (c +1));
 	            	
 	            	cell = tr.appendChild(x);
@@ -147,29 +165,31 @@ function validateNumeric()
 			
 			if(q != 3)
 			{
-				//console.log("VN-data: " +"data" + u + "," + (q +1));
-				var value = document.getElementById("data" + u + "," + (q +1));
-
-				  ////alert("v: " + value.innerHTML)
-				  if(value != null &&  value.innerHTML != "" 
-					  && isNaN(value.innerHTML) == false)
+				//console.log("VN-data: " +"sub_x" + u + "," + (q +1));
+				var value_data_entry = document.getElementById("sub_x" + u + "," + (q +1));
+				//var sub_value = value;
+				//alert("v: " + value_data_entry)
+				//console.log("value.childNode: " + value.childNode);
+				//alert("v-s: " + value_data_entry.value)
+				  if(value_data_entry != null &&  value_data_entry.value != "" 
+					  && isNaN(value_data_entry.value) == false)
 				  {
 					  total_correct++;
-					  if(value.style.backgroundColor == "red")
-						  value.style.backgroundColor = "white";
+					  if(value_data_entry.style.backgroundColor == "red")
+						  value_data_entry.style.backgroundColor = "white";
 					  
-					  if( value.style.color == "red")
-						  value.style.color = "black";
+					  if(value_data_entry.style.color == "red")
+						  value_data_entry.style.color = "black";
 				  }//end if					 
 				  else
 				  {
 					  total_incorrect++;
 					  ////alert(value);
-					  if(value != null && value.innerHTML != "" 
-						  &&  value.style.backgroundColor != "red")
-						  value.style.color = "red";
+					  if(value_data_entry != null && value_data_entry.value != "" 
+						  &&  value_data_entry.style.backgroundColor != "red")
+						  value_data_entry.style.color = "red";
 					  else
-						  value.style.backgroundColor = "red";
+						  value_data_entry.style.backgroundColor = "red";
 				  }//end else
 		
 			}//end if			
@@ -223,7 +243,8 @@ function processDataRunProgram()
 			    //processData: false,
 			    success: function(data) {
 			    	//alert("Working");
-			    	if(data.includes("*Error:"))
+			    	//if(data.includes("*Error:")) //Removed not compatible with IE.smh(A.N.)
+			    	if(data.indexOf("*Error:") > -1)
 			    		alert(data);
 			    	else
 			    	{
@@ -262,13 +283,14 @@ function cloneData()
 			
 			if(s != 3)
 			{
-				//console.log("CD-data: " +"data" + g + "," + (s +1));
-				var value = document.getElementById("data" + g + "," + (s +1));
-
+				//console.log("CD-data: " +"sub_x" + g + "," + (s +1));
+				var value_entry = document.getElementById("sub_x" + g + "," + (s +1));
+				//console.log("value_entry.value: " + value_entry.value);
+				
 				if(s !=2)
-					data_seg += value.innerHTML + "*";
+					data_seg += value_entry.value + "*";
 				else
-					data_seg += value.innerHTML;
+					data_seg += value_entry.value;
 		
 			}//end if	
 			else
@@ -280,8 +302,8 @@ function cloneData()
 		
 		}//end inner for loop
 	}//end outer for loop
-	
-}//end 
+	//alert("data_seg: " +data_seg);
+}//end cloneData
 
 function reloadGridData(x)
 {

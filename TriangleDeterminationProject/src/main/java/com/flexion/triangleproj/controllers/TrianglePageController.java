@@ -24,6 +24,14 @@ public class TrianglePageController
 		return "dataEntryScreenView";
 	}//end loadMainPage
 	
+	@RequestMapping(value = "/", method = {RequestMethod.GET})
+	//@ResponseBody
+	public String loadMainPage1(ModelMap model)
+	{
+		//return "UserDataEntryPages/dataEntryScreenView";
+		return "dataEntryScreenView";
+	}//end loadMainPage
+	
 	@RequestMapping(value = "/processData", method = {RequestMethod.GET})
 	@ResponseBody
 	public String processTriangleData(@RequestParam(value = "data_list", required = true) String tri_list)
